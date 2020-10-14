@@ -18,9 +18,45 @@
 
 3)Stampare Nome, Cognome, Prezzo e Pagante per tutte le prenotazioni fatte a Maggio 2018
 
+	SELECT paganti.name, paganti.lastname, pagamenti.price, pagamenti.id
+	FROM `prenotazioni`
+	LEFT JOIN `paganti`
+	ON prenotazioni.id = paganti.id
+	LEFT JOIN `pagamenti`
+	ON pagamenti.id = paganti.id
+	WHERE MONTH(prenotazioni.`created_at`) = "05"
+        AND YEAR(prenotazioni.`created_at`) = "2018";
+
 
 4)Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano
 
+	SELECT SUM(pagamenti.price) 
+	FROM `stanze`
+	LEFT JOIN `prenotazioni`
+	ON stanze.id = prenotazioni.stanza_id
+	LEFT JOIN `pagamenti`
+	ON pagamenti.prenotazione_id = prenotazioni.id
+	WHERE stanze.floor = 1
+	AND IFNULL(pagamenti.price, 0);
+	
+
 5)Prendi i dati di fatturazione per la prenotazione con id=7
 
+	SELECT prenotazioni.id, pagamenti.prenotazione_id, pagamenti.price, 				pagamenti.status, paganti.name, paganti.lastname, paganti.address, 				paganti.id, ospiti.document_type, ospiti.document_number
+	FROM `prenotazioni` 
+	LEFT JOIN `pagamenti`
+	ON prenotazioni.id = pagamenti.prenotazione_id
+	LEFT JOIN `paganti`
+	ON paganti.id = pagamenti.pagante_id
+	LEFT JOIN `ospiti`
+	ON paganti.ospite_id = ospiti.id
+	WHERE prenotazioni.id = 7
+	
+
 6)Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate)
+
+	SELECT stanze.id, prenotazioni.stanza_id
+	FROM `stanze`
+	LEFT JOIN  `prenotazioni`
+	ON  stanze.id = prenotazioni.stanza_id
+	WHERE prenotazioni.stanza_id IS NULL

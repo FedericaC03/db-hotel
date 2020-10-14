@@ -34,6 +34,4 @@ GROUP BY
  
 	SELECT COUNT(`ospite_id`) AS PRENOTAZIONI, MAX(`ospite_id`) AS GuestNumber
 	FROM `prenotazioni_has_ospiti` 
-	GROUP BY `ospite_id` 
-	ORDER BY COUNT(*) DESC;
-
+	
