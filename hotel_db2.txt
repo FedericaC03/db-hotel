@@ -32,9 +32,8 @@ GROUP BY
 
 5) Quante prenotazioni ha fatto l’ospite che ha fatto più prenotazioni?
  
-	SELECT ospiti.name, ospiti.lastname, COUNT(`ospite_id`) AS Nbooks 
+	SELECT COUNT(`ospite_id`) AS PRENOTAZIONI, MAX(`ospite_id`) AS GuestNumber
 	FROM `prenotazioni_has_ospiti` 
-	JOIN ospiti 
-	ON ospiti.id = prenotazioni_has_ospiti.ospite_id 
 	GROUP BY `ospite_id` 
-	HAVING COUNT(*) > 1
+	ORDER BY COUNT(*) DESC;
+
